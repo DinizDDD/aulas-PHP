@@ -1,0 +1,23 @@
+body{
+    margin: 0;
+}
+
+nav{
+    background-color: rgb(197, 197, 197);
+    display: flex;
+
+
+    .left-nav{
+        display: flex;
+        margin-left: 20px;
+        gap: 30px;
+
+        .navLink{
+        text-decoration: none;
+        color: black;
+    }
+
+    }
+
+    
+    }

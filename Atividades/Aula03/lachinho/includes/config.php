@@ -5,9 +5,10 @@
     $senha = "";
     $base = "lachinho";
 
-    $con = mysqli_connect($servidor, $usuario, $senha, $base);
+    $conn = mysqli_connect($servidor, $usuario, $senha, $base);
 
-    if (!$icon){
+    if (!$conn){
         echo "Erro ao conectar ".mysqli_connect_errno()." - ".mysqli_connect_error();
 
     }
+?>
