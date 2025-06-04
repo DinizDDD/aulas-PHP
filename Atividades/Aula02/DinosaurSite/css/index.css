@@ -253,9 +253,18 @@ footer{
 
 @media screen and (max-width: 1391px){
 
-  .BGhadro{
-    display: none;
-  }
+  .nav-home {
+    .mid-nav{
+        .content{
+            .nav-linkHome{
+                h1{
+                    font-size: 13px;
+                }
+            }
+        }
+      }
+    } 
+
 
 
 }
