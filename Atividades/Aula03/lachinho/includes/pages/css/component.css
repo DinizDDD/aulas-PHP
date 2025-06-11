@@ -3,7 +3,11 @@ body{
 }
 
 nav{
-    background-color: rgb(197, 197, 197);
+    border-top: 5px solid #f4f3f5;
+    border-left: 5px solid #f4f3f5;
+    border-bottom: 5px solid #535351;
+    border-right: 5px solid #535351;
+    background-color: #c6c6c6;
     display: flex;
 
 
