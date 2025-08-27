@@ -1,5 +1,5 @@
 <?php
-// Formulário para cadastro de Clientes
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

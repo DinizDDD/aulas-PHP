@@ -1,5 +1,5 @@
 <?php
-// Formulário para cadastro de Funcionários
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

@@ -17,7 +17,6 @@ CREATE TABLE produto (
     descricao VARCHAR(255) NOT NULL
 )
 
-
 CREATE TABLE clientes (
     id_cliente INT PRIMARY KEY AUTO_INCREMENT,
     nome_cliente VARCHAR(255) NOT NULL,
