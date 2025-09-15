@@ -43,65 +43,69 @@
         </div>
     </div>
 
-    <script>
+   <script>
+        const audioPlayer = document.getElementById('audio-player');
+        const playButton = document.getElementById('play-button');
+        const pauseButton = document.getElementById('pause-button');
+        const playerTitle = document.getElementById('player-title');
+        const playerArtist = document.getElementById('player-artist');
+        
+        let allSongs = []; // Variável para armazenar todas as músicas
+        
         async function fetchSongs() {
-            const response = await fetch('http://localhost/aulas-PHP/2SEM/PlayerMusica/src/list_songs.php');
+            // ... mesma lógica de fetch que já temos ...
+            const response = await fetch('http://localhost/player-de-musica/src/list_songs.php');
             const result = await response.json();
-            const tableBody = document.getElementById('songs-table-body');
-            tableBody.innerHTML = '';
 
             if (result.status === 'sucesso' && result.data.length > 0) {
+                allSongs = result.data; // Armazena a lista de músicas
+
                 result.data.forEach(song => {
                     const row = document.createElement('tr');
-                    row.className = 'border-b border-gray-600 hover:bg-gray-600';
+                    // ... mesma lógica de criação da linha da tabela ...
                     row.innerHTML = `
                         <td class="p-3">${song.titulo}</td>
                         <td class="p-3">${song.artista}</td>
                         <td class="p-3">${song.album || 'N/A'}</td>
                         <td class="p-3">
-                            <button onclick="editSong(${song.id})" class="bg-blue-500 hover:bg-blue-600 text-white fontbold py-1 px-2 rounded text-xs transition-colors duration-200">Editar</button>
-                            <button onclick="deleteSong(${song.id})" class="bg-red-500 hover:bg-red-600 text-white fontbold py-1 px-2 rounded text-xs transition-colors duration-200 ml-2">Excluir</button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-        } else {
-            tableBody.innerHTML = '<tr><td colspan="4" class="text-center p-4 text-gray-500">Nenhuma música encontrada.</td></tr>';
-        }
-    }
-
-    async function deleteSong(id) {
-        if (!confirm('Tem certeza que deseja excluir esta música?')) {
-            return;
-        }
-
-        const response = await fetch(`http://localhost/player-de-musica/src/delete_song.php?id=${id}`, {
-            method: 'DELETE'
-        });
-
-        const result = await response.json();
-        alert(result.mensagem);
-        fetchSongs(); // Recarrega a lista
-    }
-
-    function editSong(id) {
-        async function editSong(id) {
-            const response = await fetch(`http://localhost/player-de-musica/src/get_song.php?id=${id}`);
-            const result = await response.json();
-
-            if (result.status === 'sucesso') {
-                const song = result.data;
-                // Agora, você pode usar os dados da variável 'song' para preencher o formulário
-                document.getElementById('edit-titulo').value = song.titulo;
-                document.getElementById('edit-artista').value = song.artista;
-                // ... e assim por diante
-            } else {
-                alert(result.mensagem);
+                            <button onclick="playSong(${song.id})" class="bg-teal-500 hover:bg-teal-600 text-white fontbold py-1 px-2 rounded text-xs transition-colors duration-200">
+                                Play
+                            </button>
+                            </td>
+                    `;
+                    // ... adicionar a linha à tabela ...
+                });
             }
-        }       
-    }
-
-    document.addEventListener('DOMContentLoaded', fetchSongs);
+            // ... lógica de erro ...
+        }
+async function playSong(id) {
+const song = allSongs.find(s => s.id === id); // Encontra a música pelo ID
+if (song) {
+// Define a URL do arquivo de áudio
+audioPlayer.src = `../music_files/${song.caminho_arquivo}`;
+// Toca a música
+audioPlayer.play();
+// Atualiza as informações exibidas no player
+playerTitle.textContent = song.titulo;
+playerArtist.textContent = `- ${song.artista}`;
+// Mostra o botão de Pause e esconde o de Play
+playButton.classList.add('hidden');
+pauseButton.classList.remove('hidden');
+}
+}
+function pauseSong() {
+audioPlayer.pause();
+playButton.classList.remove('hidden');
+pauseButton.classList.add('hidden');
+}
+// Conecta os botões de play e pause com as funções
+playButton.addEventListener('click', () => {
+audioPlayer.play();
+playButton.classList.add('hidden');
+pauseButton.classList.remove('hidden');
+});
+pauseButton.addEventListener('click', pauseSong);
+document.addEventListener('DOMContentLoaded', fetchSongs);
 </script>
 </body>
 </html>
