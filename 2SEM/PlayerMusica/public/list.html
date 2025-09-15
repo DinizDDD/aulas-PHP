@@ -45,7 +45,7 @@
 
     <script>
         async function fetchSongs() {
-            const response = await fetch('http://localhost/player-de-musica/src/list_songs.php');
+            const response = await fetch('http://localhost/aulas-PHP/2SEM/PlayerMusica/src/list_songs.php');
             const result = await response.json();
             const tableBody = document.getElementById('songs-table-body');
             tableBody.innerHTML = '';
