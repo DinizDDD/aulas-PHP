@@ -67,8 +67,20 @@
     }
 
     function editSong(id) {
-        alert(`Você clicou em editar a música com ID: ${id}`);
-        // A lógica de edição será implementada na atividade de casa
+        async function editSong(id) {
+            const response = await fetch(`http://localhost/player-de-musica/src/get_song.php?id=${id}`);
+            const result = await response.json();
+
+            if (result.status === 'sucesso') {
+                const song = result.data;
+                // Agora, você pode usar os dados da variável 'song' para preencher o formulário
+                document.getElementById('edit-titulo').value = song.titulo;
+                document.getElementById('edit-artista').value = song.artista;
+                // ... e assim por diante
+            } else {
+                alert(result.mensagem);
+            }
+        }       
     }
 
     document.addEventListener('DOMContentLoaded', fetchSongs);
