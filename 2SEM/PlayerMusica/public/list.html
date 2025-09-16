@@ -54,7 +54,7 @@
         
         async function fetchSongs() {
             // ... mesma lógica de fetch que já temos ...
-            const response = await fetch('http://localhost/player-de-musica/src/list_songs.php');
+            const response = await fetch('http://localhost/aulas-PHP/2SEM/PlayerMusica/src/list_songs.php');
             const result = await response.json();
 
             if (result.status === 'sucesso' && result.data.length > 0) {
@@ -78,33 +78,40 @@
             }
             // ... lógica de erro ...
         }
-async function playSong(id) {
-const song = allSongs.find(s => s.id === id); // Encontra a música pelo ID
-if (song) {
-// Define a URL do arquivo de áudio
-audioPlayer.src = `../music_files/${song.caminho_arquivo}`;
-// Toca a música
-audioPlayer.play();
-// Atualiza as informações exibidas no player
-playerTitle.textContent = song.titulo;
-playerArtist.textContent = `- ${song.artista}`;
-// Mostra o botão de Pause e esconde o de Play
-playButton.classList.add('hidden');
-pauseButton.classList.remove('hidden');
-}
-}
-function pauseSong() {
-audioPlayer.pause();
-playButton.classList.remove('hidden');
-pauseButton.classList.add('hidden');
-}
-// Conecta os botões de play e pause com as funções
-playButton.addEventListener('click', () => {
-audioPlayer.play();
-playButton.classList.add('hidden');
-pauseButton.classList.remove('hidden');
-});
-pauseButton.addEventListener('click', pauseSong);
+
+        async function playSong(id) {
+            const song = allSongs.find(s => s.id === id); // Encontra a música pelo ID
+            if (song) {
+
+                // Define a URL do arquivo de áudio
+                audioPlayer.src = `../music_files/${song.caminho_arquivo}`;
+
+                // Toca a música
+                audioPlayer.play();
+
+                // Atualiza as informações exibidas no player
+                playerTitle.textContent = song.titulo;
+                playerArtist.textContent = `- ${song.artista}`;
+
+                // Mostra o botão de Pause e esconde o de Play
+                playButton.classList.add('hidden');
+                pauseButton.classList.remove('hidden');
+            }
+        }
+        function pauseSong() {
+            audioPlayer.pause();
+            playButton.classList.remove('hidden');
+            pauseButton.classList.add('hidden');
+        }
+
+        // Conecta os botões de play e pause com as funções
+        playButton.addEventListener('click', () => {
+            audioPlayer.play();
+            playButton.classList.add('hidden');
+            pauseButton.classList.remove('hidden');
+        });
+        
+        pauseButton.addEventListener('click', pauseSong);
 document.addEventListener('DOMContentLoaded', fetchSongs);
 </script>
 </body>
