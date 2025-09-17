@@ -1,5 +1,4 @@
 <?php
-
 // Inclui o arquivo de conexão com o banco de dados
 require_once('../config/database.php');
 
@@ -13,7 +12,7 @@ try {
     // Executa a query e pega todos os resultados
     $stmt = $pdo->query($sql);
     $songs = $stmt->fetchAll();
-
+    
     // Retorna a lista de músicas em formato JSON
     echo json_encode(['status' => 'sucesso', 'data' => $songs]);
 

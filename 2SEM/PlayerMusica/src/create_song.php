@@ -1,5 +1,4 @@
 <?php
-
 // Inclui o arquivo de conexão com o banco de dados
 require_once('../config/database.php');
 
@@ -26,10 +25,10 @@ try {
 
     // Executa a query com os valores do formulário
     $stmt->execute([
-     $data['titulo'],   
-     $data['artista'],
-     $data['album'] ?? null, // O álbum pode ser nulo
-     $data['caminho_arquivo']
+        $data['titulo'],
+        $data['artista'],
+        $data['album'] ?? null, // O álbum pode ser nulo
+        $data['caminho_arquivo']
     ]);
 
     // Retorna uma resposta de sucesso
