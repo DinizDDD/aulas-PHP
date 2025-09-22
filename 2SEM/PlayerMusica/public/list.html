@@ -41,7 +41,16 @@
                 </div>
             </div>
         </div>
-        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+
+
+    <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+        <div class="container mx-auto max-w-4xl">
+            <div class="mb-4">
+                <input type="search" id="search-input" placeholder="Buscar por título ou artista..."
+                class="w-full p-2 rounded bg-gray-600 border border-gray-500 text-white">
+            </div>
+        </div>
+        <div class="container mx-auto max-w-4xl">
             <table class="w-full text-left table-auto">
                 <thead>
                     <tr class="text-gray-400">
@@ -171,6 +180,24 @@
                     alert(result.mensagem);
                 }
             }
+
+            async function fetchSongs(searchTerm = '') {
+                let url = 'http://localhost/player-de-musica/src/list_songs.php';
+                if (searchTerm) {
+                    url += `?search=${searchTerm}`;
+                }
+
+                const response = await fetch(url);
+                const result = await response.json();
+                // ... lógica de renderização da tabela ...
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                fetchSongs();
+                document.getElementById('search-input').addEventListener('input', (event) => {
+                    fetchSongs(event.target.value);
+                });
+            });
 
             document.addEventListener('DOMContentLoaded', fetchSongs);
     </script>
