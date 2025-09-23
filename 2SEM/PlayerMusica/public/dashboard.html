@@ -100,7 +100,7 @@
             caminho_arquivo: form.caminho.value
         };
 
-        const response = await fetch('http://localhost/aulas-PHP/2SEM/PlyerMusica/src/create_song.php', {
+        const response = await fetch('http://localhost/aulas-PHP/2SEM/PlayerMusica/src/create_song.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -121,16 +121,23 @@
     let currentSongIndex = -1; // -1 indica que nenhuma música está tocando
 
     async function fetchSongs() {
-        const response = await fetch('http://localhost/aulas-PHP/2SEM/PlyerMusica/src/list_songs.php');
+        const response = await fetch('http://localhost/aulas-PHP/2SEM/PlayerMusica/src/list_songs.php');
         const result = await response.json();
         const tableBody = document.getElementById('songs-table-body');
 
         tableBody.innerHTML = '';
 
         if (result.status === 'sucesso' && result.data.length > 0) {
+            allSongs = result.data;
             result.data.forEach(song => {
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-600 hover:bg-gray-600';
+
+                row.onclick = () => {
+                    currentSongIndex = index;
+                    playSong(song.id);
+                };
+            
                 row.innerHTML = `
                 <td class="p-3">${song.titulo}</td>
                 <td class="p-3">${song.artista}</td>
@@ -145,6 +152,7 @@
             });
         } else {
             tableBody.innerHTML = '<tr><td colspan="4" class="text-center p-4 text-gray-500">Nenhuma música encontrada.</td></tr>';
+            allSongs = []; 
             }
 
         
@@ -164,17 +172,22 @@
         async function playSong(id) {
             const song = allSongs.find(s => s.id === id); // Encontra a música pelo ID
             if (song) {
-                // Define a URL do arquivo de áudio
-                audioPlayer.src = `../music_files/${song.caminho_arquivo}`;
-                // Toca a música
-                audioPlayer.play();
+                try {
+                    audioPlayer.src = `../music_files/${song.caminho_arquivo}`;
+                    
+                    // Tenta carregar a música
+                    await audioPlayer.load();
+                    await audioPlayer.play();
 
-                // Atualiza as informações exibidas no player
-                playerTitle.textContent = song.titulo;
-                playerArtist.textContent = `- ${song.artista}`;
-                // Mostra o botão de Pause e esconde o de Play
-                playButton.classList.add('hidden');
-                pauseButton.classList.remove('hidden');
+                    playerTitle.textContent = song.titulo;
+                    playerArtist.textContent = `- ${song.artista}`;
+                    playButton.classList.add('hidden');
+                    pauseButton.classList.remove('hidden');
+                    
+                } catch (error) {
+                    console.error('Erro ao reproduzir música:', error);
+                    alert('Erro ao carregar a música. Verifique o caminho do arquivo.');
+                }
             }
         }
 
@@ -215,7 +228,7 @@
                 return;
             }
 
-            const response = await fetch(`http://localhost/aulas-PHP/2SEM/PlyerMusica/src/delete_song.php?id=${id}`, {
+            const response = await fetch(`http://localhost/aulas-PHP/2SEM/PlayerMusica/src/delete_song.php?id=${id}`, {
                 method: 'DELETE'
             });
 
@@ -225,7 +238,7 @@
         }
 
         async function editSong(id) {
-            const response = await fetch(`http://localhost/aulas-PHP/2SEM/PlyerMusica/src/get_song.php?id=${id}`);
+            const response = await fetch(`http://localhost/aulas-PHP/2SEM/PlayerMusica/src/get_song.php?id=${id}`);
             const result = await response.json();
 
             if (result.status === 'sucesso') {
