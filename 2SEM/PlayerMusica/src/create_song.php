@@ -19,10 +19,8 @@ try {
     // Comando SQL para inserir dados
     // Usamos '?' para preparar a query, prevenindo SQL Injection
     $sql = "INSERT INTO songs (titulo, artista, album, caminho_arquivo) VALUES (?, ?, ?, ?)";
-
     // Prepara a query para execução
     $stmt = $pdo->prepare($sql);
-
     // Executa a query com os valores do formulário
     $stmt->execute([
         $data['titulo'],
@@ -30,10 +28,9 @@ try {
         $data['album'] ?? null, // O álbum pode ser nulo
         $data['caminho_arquivo']
     ]);
-
+    
     // Retorna uma resposta de sucesso
     echo json_encode(['mensagem' => 'Música adicionada com sucesso!', 'id' => $pdo->lastInsertId()]);
-
 } catch (\PDOException $e) {
     http_response_code(500); // Internal Server Error
     echo json_encode(['mensagem' => 'Erro ao adicionar a música: ' . $e->getMessage()]);

@@ -24,7 +24,7 @@ try {
         http_response_code(404);
         echo json_encode(['mensagem' => 'Música não encontrada.']);
     }
-    
+
 } catch (\PDOException $e) {
     http_response_code(500);
     echo json_encode(['mensagem' => 'Erro ao excluir a música: ' . $e->getMessage()]);

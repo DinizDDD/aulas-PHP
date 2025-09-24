@@ -5,6 +5,7 @@ header('Content-Type: application/json');
 
 // O ID da música a ser atualizada vem da URL
 $id = $_GET['id'] ?? null;
+
 // Os novos dados vêm do corpo da requisição
 $data = json_decode(file_get_contents('php://input'), true);
 
